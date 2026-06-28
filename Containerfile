@@ -14,6 +14,9 @@ RUN dnf -y install \
     qemu-guest-agent \
     && dnf clean all
 
+# Configure default timezone to UTC
+RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+
 # Copy file structure
 COPY rootfs/ /
 
