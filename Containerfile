@@ -11,6 +11,7 @@ RUN dnf -y install \
     jq \
     nano \
     htop \
+    qemu-guest-agent \
     && dnf clean all
 
 # Copy file structure
