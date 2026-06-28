@@ -9,6 +9,8 @@ RUN dnf -y install \
     unzip \
     wget \
     jq \
+    nano \
+    htop \
     && dnf clean all
 
 # Copy file structure
