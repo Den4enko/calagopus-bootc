@@ -16,7 +16,7 @@ COPY rootfs/ /
 
 # Enable system services
 RUN systemctl enable \
-    cloud-init.service \
+    cloud-init-main.service \
     cloud-config.service \
     cloud-final.service \
     cloud-init-local.service \
