@@ -1,0 +1,33 @@
+[Unit]
+Description=Calagopus Wings Container Service
+After=network-online.target podman.socket
+Requires=podman.socket
+
+[Container]
+Image=ghcr.io/calagopus/wings:1.0.11
+ContainerName=wings
+Network=host
+SecurityLabelDisable=true
+Timezone=local
+
+# Environment variables
+Environment=WINGS_UID=988
+Environment=WINGS_GID=988
+Environment=WINGS_USERNAME=calagopus
+
+# State and config directories
+Volume=/var/lib/calagopus:/var/lib/calagopus
+Volume=/etc/calagopus:/etc/calagopus
+Volume=/var/log/calagopus:/var/log/calagopus
+Volume=/tmp/calagopus:/tmp/calagopus
+Volume=/etc/calagopus/certs:/etc/calagopus/certs:ro
+
+# Podman container storage path
+Volume=/var/lib/containers/storage/:/var/lib/containers/storage/:ro
+
+# Podman socket
+Volume=/run/podman/podman.sock:/run/podman/podman.sock
+
+[Install]
+# systemd generator target
+WantedBy=multi-user.target

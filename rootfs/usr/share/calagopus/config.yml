@@ -1,0 +1,18 @@
+# Default Calagopus configuration for Podman/BTRFS
+# Note: When configuring your node from the panel, do not completely overwrite this file.
+# Instead, add your uuid, token_id, token, and api settings to this file.
+
+system:
+  root_directory: /var/lib/calagopus
+  log_directory: /var/log/calagopus
+  vmount_directory: /var/lib/calagopus/vmounts
+  data: /var/lib/calagopus/volumes
+  archive_directory: /var/lib/calagopus/archives
+  backup_directory: /var/lib/calagopus/backups
+  disk_limiter_mode: btrfs_subvolume
+
+docker:
+  socket: /run/podman/podman.sock
+  container_apply_seccomp: false
+  log_config:
+    type: json-file
