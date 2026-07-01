@@ -7,9 +7,8 @@ Requires=podman.socket
 Image=ghcr.io/calagopus/wings:1.0.11
 ContainerName=wings
 Network=host
-SecurityLabelDisable=true
 Timezone=local
-AddCapability=CAP_SYS_ADMIN
+Privileged=true
 
 # Environment variables
 Environment=WINGS_UID=988
