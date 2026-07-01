@@ -4,7 +4,7 @@ FROM quay.io/fedora/fedora-bootc:44
 RUN dnf -y install \
     podman \
     cloud-init \
-    btrfs-progs \
+    xfsprogs \
     tar \
     unzip \
     wget \

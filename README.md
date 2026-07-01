@@ -3,14 +3,14 @@
 > [!WARNING]
 > This is an experimental project and is **NOT** affiliated with or endorsed by the official Calagopus project. Use it at your own risk.
 
-This repository builds a bootable Fedora container image (`bootc`) pre-configured with Calagopus Wings, Podman, and Btrfs storage driver optimizations.
+This repository builds a bootable Fedora container image (`bootc`) pre-configured with Calagopus Wings, Podman, and XFS storage driver optimizations.
 
 ## Features
 
 - **Fedora Bootc Base**: Streamlined bootable container image (`quay.io/fedora/fedora-bootc`).
-- **Podman with Btrfs**: Pre-configured system-wide Btrfs storage driver for Podman.
+- **Podman with XFS/Overlay**: Uses standard `overlay` driver optimized for XFS (with automatic reflink support if formatted appropriately).
 - **Calagopus Wings via Quadlet**: Managed as a systemd service natively via Podman Quadlet.
-- **Optimized Disk Path**: State directories (`/var/lib/calagopus`) are created with Btrfs NoCoW attribute enabled.
+- **XFS Quota Support**: State directories (`/var/lib/calagopus`) are ready for disk limiting using XFS project quotas (`xfs_quota`).
 - **Config Overlay**: Default configuration is provided at `/usr/share/calagopus/config.yml` and copied to `/etc/calagopus/config.yml` on the first boot if it doesn't exist, allowing persistable user configuration.
 
 ## Getting Started
