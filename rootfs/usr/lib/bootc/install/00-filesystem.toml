@@ -1,2 +1,2 @@
-[install]
-filesystem = "xfs"
+[install.filesystem.root]
+type = "xfs"
