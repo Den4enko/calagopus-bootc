@@ -8,7 +8,7 @@ Image=ghcr.io/calagopus/wings:1.0.11
 ContainerName=wings
 Network=host
 Timezone=local
-Privileged=true
+PodmanArgs=--privileged
 
 # Environment variables
 Environment=WINGS_UID=988
