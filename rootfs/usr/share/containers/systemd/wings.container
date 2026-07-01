@@ -9,6 +9,7 @@ ContainerName=wings
 Network=host
 Timezone=local
 PodmanArgs=--privileged
+SecurityLabelDisable=true
 
 # Environment variables
 Environment=WINGS_UID=988
