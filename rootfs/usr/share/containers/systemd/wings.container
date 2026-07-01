@@ -16,7 +16,7 @@ Environment=WINGS_GID=988
 Environment=WINGS_USERNAME=calagopus
 
 # State and config directories
-Volume=/var/lib/calagopus:/var/lib/calagopus
+Volume=/var/lib/calagopus:/var/lib/calagopus:z
 Volume=/etc/calagopus:/etc/pterodactyl
 Volume=/var/log/calagopus:/var/log/calagopus
 Volume=/tmp/calagopus:/tmp/calagopus
