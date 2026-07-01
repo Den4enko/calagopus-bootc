@@ -9,6 +9,7 @@ ContainerName=wings
 Network=host
 SecurityLabelDisable=true
 Timezone=local
+AddCapability=CAP_SYS_ADMIN
 
 # Environment variables
 Environment=WINGS_UID=988
