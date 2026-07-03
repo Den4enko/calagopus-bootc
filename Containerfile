@@ -27,4 +27,5 @@ RUN systemctl enable \
     cloud-final.service \
     cloud-init-local.service \
     podman.socket \
+    podman-image-prune.timer \
     && systemctl mask wings.service
