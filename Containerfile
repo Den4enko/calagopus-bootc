@@ -12,6 +12,7 @@ RUN dnf -y install \
     nano \
     htop \
     qemu-guest-agent \
+    zram-generator-defaults \
     && dnf clean all
 
 # Configure default timezone to UTC
