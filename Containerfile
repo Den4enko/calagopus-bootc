@@ -8,11 +8,11 @@ RUN dnf -y install \
     tar \
     unzip \
     wget \
-    jq \
     nano \
     htop \
     qemu-guest-agent \
     zram-generator-defaults \
+    rsync \
     && dnf clean all
 
 # Configure default timezone to UTC
