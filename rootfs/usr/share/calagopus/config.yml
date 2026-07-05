@@ -9,7 +9,7 @@ system:
   data: /var/lib/calagopus/volumes
   archive_directory: /var/lib/calagopus/archives
   backup_directory: /var/lib/calagopus/backups
-  tmp_directory: /tmp/calagopus
+  tmp_directory: /var/lib/calagopus/tmp
   disk_limiter_mode: xfs_quota
 
 docker:

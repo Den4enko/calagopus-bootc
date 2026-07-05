@@ -20,7 +20,6 @@ Environment=WINGS_USERNAME=calagopus
 Volume=/var/lib/calagopus:/var/lib/calagopus:z
 Volume=/etc/calagopus:/etc/pterodactyl
 Volume=/var/log/calagopus:/var/log/calagopus
-Volume=/tmp/calagopus:/tmp/calagopus:z
 Volume=/etc/calagopus/certs:/etc/pterodactyl/certs:ro
 
 # Podman container storage path
