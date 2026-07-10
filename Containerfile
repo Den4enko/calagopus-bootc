@@ -1,7 +1,9 @@
 FROM quay.io/fedora/fedora-bootc:44
 
 # Base utilities and Podman
-RUN dnf -y install \
+RUN dnf clean all && \
+    dnf upgrade -y --refresh && \
+    dnf -y install \
     podman \
     cloud-init \
     xfsprogs \
