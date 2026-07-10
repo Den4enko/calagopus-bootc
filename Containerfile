@@ -15,6 +15,7 @@ RUN dnf clean all && \
     qemu-guest-agent \
     zram-generator-defaults \
     rsync \
+    fastfetch \
     && dnf clean all
 
 # Configure default timezone to UTC
