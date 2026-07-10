@@ -31,6 +31,4 @@ RUN systemctl enable \
     cloud-init-local.service \
     podman.socket \
     podman-image-prune.timer \
-    panel.service \
-    panel-heavy.service \
     && systemctl mask wings.service panel.service panel-heavy.service
