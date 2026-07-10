@@ -1,0 +1,9 @@
+[Unit]
+Description=Calagopus Panel Cache Service
+
+[Container]
+Image=ghcr.io/calagopus/valkey:latest
+Pod=panel.pod
+Exec=--protected-mode no --save 60 1
+EnvironmentFile=/etc/calagopus/panel.env
+Volume=/var/lib/calagopus/panel/cache:/data:Z

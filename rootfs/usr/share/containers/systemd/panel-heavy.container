@@ -1,0 +1,20 @@
+[Unit]
+Description=Calagopus Panel Heavy Web Service
+Requires=panel-db.service panel-cache.service
+After=panel-db.service panel-cache.service
+Conflicts=panel.service
+
+[Container]
+Image=ghcr.io/calagopus/panel:1.0.11-heavy
+Pod=panel.pod
+EnvironmentFile=/etc/calagopus/panel.env
+Volume=/var/lib/calagopus/panel/data:/var/lib/calagopus:Z
+Volume=/var/log/calagopus/panel:/var/log/calagopus:Z
+Volume=/var/lib/calagopus/panel/binaries:/app/binaries:Z
+Volume=/var/lib/calagopus/panel/translations:/app/translations:Z
+Volume=/var/lib/calagopus/panel/extensions:/app/extensions:Z
+Volume=/var/lib/calagopus/panel/extension-migrations:/app/repo/database/extension-migrations:Z
+AddHost=host.docker.internal:host-gateway
+
+[Install]
+WantedBy=multi-user.target

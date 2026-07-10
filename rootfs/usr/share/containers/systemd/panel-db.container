@@ -1,0 +1,8 @@
+[Unit]
+Description=Calagopus Panel Database Service
+
+[Container]
+Image=ghcr.io/calagopus/pgautoupgrade:18-alpine
+Pod=panel.pod
+EnvironmentFile=/etc/calagopus/panel.env
+Volume=/var/lib/calagopus/panel/postgres:/data:Z
