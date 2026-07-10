@@ -1,44 +1,92 @@
 # calagopus-bootc
 
 > [!WARNING]
-> This is an experimental project and is **NOT** affiliated with or endorsed by the official Calagopus project. Use it at your own risk.
+> This is an experimental project and is **NOT** affiliated with or endorsed by the official Calagopus or Pterodactyl projects. Use it at your own risk.
 
-This repository builds a bootable Fedora container image (`bootc`) pre-configured with Calagopus Wings, Podman, and XFS storage driver optimizations.
+This repository builds a bootable Fedora container image (`bootc`) pre-configured with Calagopus Wings, Calagopus Panel, and Calagopus Panel Heavy.
 
-## Features
+## Architecture & Features
 
-- **Fedora Bootc Base**: Streamlined bootable container image (`quay.io/fedora/fedora-bootc`).
-- **Podman with XFS/Overlay**: Uses standard `overlay` driver optimized for XFS (with automatic reflink support if formatted appropriately).
-- **Calagopus Wings via Quadlet**: Managed as a systemd service natively via Podman Quadlet.
-- **XFS Quota Support**: State directories (`/var/lib/calagopus`) are ready for disk limiting using XFS project quotas (`xfs_quota`).
-- **Config Overlay**: Default configuration is provided at `/usr/share/calagopus/config.yml` and copied to `/etc/calagopus/config.yml` on the first boot if it doesn't exist, allowing persistable user configuration.
+The image can be used to run either a Controller Node (Panel) or a Worker Node (Wings) by unmasking the respective systemd services.
+
+- **Fedora Bootc Base**: Bootable container OS based on `quay.io/fedora/fedora-bootc`.
+- **Podman Quadlets**: Services (Wings, Panel, Database, Cache) are managed by systemd using Podman Quadlets.
+- **Unified Pod Architecture**: The `panel` and `panel-heavy` services share the same Podman Pod, database, and cache, communicating over local loopback.
+- **XFS & Quota Support**: Directories are prepped for XFS project quotas (`xfs_quota`), enabled via kernel arguments (`rootflags=pquota`).
+
+## Custom OS Configurations
+
+The image includes the following configurations:
+
+- **Kernel Arguments**: Audit logging is disabled (`audit=0`), log level is set to 3 to reduce console output, and XFS project quotas are enabled (`rootflags=pquota`).
+- **System Provisioning**: Uses `systemd-tmpfiles` to create directories (`/etc/calagopus`, `/var/lib/calagopus`) and copy the default Wings config on first boot.
+- **Packages & Utilities**: Includes `cloud-init` for deployments, `qemu-guest-agent` for VM integration, and `zram-generator-defaults` for ZRAM swap.
+- **Podman Maintenance**: A `podman-image-prune.timer` is enabled to clean up unused container images.
+
+## Included Services
+
+Services are masked (disabled) by default. You must unmask the services you want to run:
+
+- **`wings`**: The game server daemon.
+- **`panel`**: The standard Calagopus web interface.
+- **`panel-heavy`**: The "heavy" Calagopus web interface (includes binaries, extensions, and translations).
+
+> [!NOTE]
+> `panel` and `panel-heavy` are mutually exclusive and share the database and configuration.
 
 ## Getting Started
 
-### 1. Initialization and Configuration
+### 1. Setting up a Controller Node (Panel)
 
-By default, the `wings.service` is **masked** to prevent it from starting before you configure it.
-
-1. Once the system is booted, configure Wings by editing `/etc/calagopus/config.yml`:
+1. Edit the panel configuration file:
    ```bash
-   sudo vi /etc/calagopus/config.yml
+   sudo nano /etc/calagopus/panel.env
    ```
-   *Note: Do not completely overwrite the default configuration. Just append or fill in your `uuid`, `token_id`, `token`, and `api` fields as provided by your Calagopus Panel.*
+   *Configure `APP_ENCRYPTION_KEY`, `POSTGRES_PASSWORD`, etc.*
 
-### 2. Enable and Start Wings
+2. Unmask and start the panel (choose ONE):
+   
+   **For Standard Panel:**
+   ```bash
+   sudo systemctl unmask panel
+   sudo systemctl start panel
+   ```
+   **For Heavy Panel:**
+   ```bash
+   sudo systemctl unmask panel-heavy
+   sudo systemctl start panel-heavy
+   ```
 
-After configuring the daemon, unmask and start the service:
+3. The panel starts its database and cache containers, maps port `8000`, and persists data in `/var/lib/calagopus/panel/`.
 
-```bash
-sudo systemctl unmask wings
-sudo systemctl start wings
-```
+> [!TIP]
+> **Changing the Port:**
+> By default, the panel listens on port `8000`. To change it, copy the pod configuration to `/etc` and modify it:
+> ```bash
+> sudo cp /usr/share/containers/systemd/panel.pod /etc/containers/systemd/
+> sudo nano /etc/containers/systemd/panel.pod
+> # Change PublishPort=8080:8000
+> sudo systemctl daemon-reload
+> sudo systemctl restart panel
+> ```
 
-Once unmasked, the service is automatically enabled on boot due to the Quadlet generator configuration.
+### 2. Setting up a Worker Node (Wings)
+
+1. Edit the wings configuration file:
+   ```bash
+   sudo nano /etc/calagopus/config.yml
+   ```
+   *Paste the configuration token provided by your Calagopus Panel.*
+
+2. Unmask and start wings:
+   ```bash
+   sudo systemctl unmask wings
+   sudo systemctl start wings
+   ```
 
 ## CI/CD Pipeline
 
-The project includes a GitHub Actions workflow that:
+The GitHub Actions workflow:
 - Builds the OCI image on every push/PR to `main`.
-- Pushes the image to GitHub Container Registry (GHCR) as `ghcr.io/<owner>/calagopus-bootc:latest` (on main merge).
-- Triggers a daily automatic build at 18:00 UTC to keep packages and base images up to date.
+- Pushes the image to GitHub Container Registry (GHCR) as `ghcr.io/<owner>/calagopus-bootc:latest` on merge to `main`.
+- Triggers a daily build at 18:00 UTC.
