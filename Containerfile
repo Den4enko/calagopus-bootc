@@ -34,8 +34,12 @@ RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 COPY rootfs/ /
 
 # Enable system services
-RUN systemctl enable \
-    cloud-init.service \
+RUN if [ -f /usr/lib/systemd/system/cloud-init-main.service ]; then \
+        systemctl enable cloud-init-main.service; \
+    else \
+        systemctl enable cloud-init.service; \
+    fi && \
+    systemctl enable \
     cloud-config.service \
     cloud-final.service \
     cloud-init-local.service \
