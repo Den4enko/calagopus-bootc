@@ -19,6 +19,18 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - distro: centos
+            base_image: quay.io/centos-bootc/centos-bootc:stream10
+            tag_suffix: centos10
+            is_latest: true
+          - distro: fedora
+            base_image: quay.io/fedora/fedora-bootc:44
+            tag_suffix: fedora
+            is_latest: false
 
     steps:
       - name: Checkout repository
@@ -38,9 +50,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=sha
-            type=ref,event=branch
+            type=raw,value=latest,enable=${{ matrix.is_latest && github.ref == 'refs/heads/main' }}
+            type=raw,value=${{ matrix.tag_suffix }},enable=${{ github.ref == 'refs/heads/main' }}
+            type=sha,suffix=-${{ matrix.tag_suffix }}
+            type=ref,event=branch,suffix=-${{ matrix.tag_suffix }}
 
       - name: Build Image with Buildah
         id: build-image
@@ -51,6 +64,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           containerfiles: |
             ./Containerfile
+          build-args: |
+            BASE_IMAGE=${{ matrix.base_image }}
           oci: true
 
       - name: Push to Registry

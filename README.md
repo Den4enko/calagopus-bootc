@@ -3,13 +3,15 @@
 > [!WARNING]
 > This is an experimental project and is **NOT** affiliated with or endorsed by the official Calagopus or Pterodactyl projects. Use it at your own risk.
 
-This repository builds a bootable Fedora container image (`bootc`) pre-configured with Calagopus Wings, Calagopus Panel, and Calagopus Panel Heavy.
+This repository builds bootable container images (`bootc`) on top of Fedora and CentOS Stream 10 pre-configured with Calagopus Wings, Calagopus Panel, and Calagopus Panel Heavy.
 
 ## Architecture & Features
 
 The image can be used to run either a Controller Node (Panel) or a Worker Node (Wings) by unmasking the respective systemd services.
 
-- **Fedora Bootc Base**: Bootable container OS based on `quay.io/fedora/fedora-bootc`.
+- **Base OS options**:
+  - `centos10` / `latest`: Built from `quay.io/centos-bootc/centos-bootc:stream10` (highly recommended for production).
+  - `fedora`: Built from `quay.io/fedora/fedora-bootc:44` (bleeding-edge).
 - **Podman Quadlets**: Services (Wings, Panel, Database, Cache) are managed by systemd using Podman Quadlets.
 - **Unified Pod Architecture**: The `panel` and `panel-heavy` services share the same Podman Pod, database, and cache, communicating over local loopback.
 - **XFS & Quota Support**: Directories are prepped for XFS project quotas (`xfs_quota`), enabled via kernel arguments (`rootflags=pquota`).
@@ -87,6 +89,8 @@ Services are masked (disabled) by default. You must unmask the services you want
 ## CI/CD Pipeline
 
 The GitHub Actions workflow:
-- Builds the OCI image on every push/PR to `main`.
-- Pushes the image to GitHub Container Registry (GHCR) as `ghcr.io/<owner>/calagopus-bootc:latest` on merge to `main`.
+- Builds the OCI images (both CentOS Stream 10 and Fedora 44) on every push/PR to `main`.
+- Pushes the images to GitHub Container Registry (GHCR) on merge to `main`:
+  - `ghcr.io/<owner>/calagopus-bootc:centos10` (also tagged as `latest`)
+  - `ghcr.io/<owner>/calagopus-bootc:fedora`
 - Triggers a daily build at 18:00 UTC.
