@@ -1,10 +1,12 @@
 ARG BASE_IMAGE=quay.io/fedora/fedora-bootc:44
 FROM $BASE_IMAGE
+ARG BASE_IMAGE
 
-# Install EPEL & enable CRB for CentOS-based images to access htop/fastfetch
+# Install EPEL & enable CRB/epel-testing for CentOS-based images to access htop/fastfetch
 RUN if echo "$BASE_IMAGE" | grep -q "centos"; then \
         dnf install -y epel-release && \
-        dnf config-manager --set-enabled crb; \
+        dnf config-manager --set-enabled crb && \
+        dnf config-manager --set-enabled epel-testing; \
     fi
 
 # Base utilities and Podman
