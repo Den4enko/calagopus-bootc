@@ -45,4 +45,5 @@ RUN if [ -f /usr/lib/systemd/system/cloud-init-main.service ]; then \
     cloud-init-local.service \
     podman.socket \
     podman-image-prune.timer \
-    && systemctl mask wings.service panel.service panel-heavy.service
+    && systemctl mask wings.service panel.service panel-heavy.service \
+    && systemctl disable bootc-fetch-apply-updates.service
