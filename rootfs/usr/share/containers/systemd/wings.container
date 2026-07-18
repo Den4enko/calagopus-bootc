@@ -4,7 +4,7 @@ After=network-online.target podman.socket
 Requires=podman.socket
 
 [Container]
-Image=ghcr.io/calagopus/wings:1.0.11
+Image=ghcr.io/calagopus/wings:1.1.0
 ContainerName=wings
 Network=host
 Timezone=local

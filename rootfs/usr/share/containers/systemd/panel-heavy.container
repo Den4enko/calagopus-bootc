@@ -5,7 +5,7 @@ After=panel-db.service panel-cache.service
 Conflicts=panel.service
 
 [Container]
-Image=ghcr.io/calagopus/panel:1.0.11-heavy
+Image=ghcr.io/calagopus/panel:1.1.0-heavy
 Pod=panel.pod
 EnvironmentFile=/etc/calagopus/panel.env
 Volume=/var/lib/calagopus/panel/data:/var/lib/calagopus:Z
