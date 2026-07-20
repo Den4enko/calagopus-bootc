@@ -25,6 +25,7 @@ RUN dnf clean all && \
     zram-generator-defaults \
     rsync \
     fastfetch \
+    tcpdump \
     && dnf clean all
 
 # Configure default timezone to UTC
