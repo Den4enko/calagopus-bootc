@@ -28,17 +28,14 @@ jobs:
             tag_suffix: centos10
             is_latest: false
           - distro: almalinux
-            base_image: quay.io/almalinux/almalinux-bootc:10
+            base_image: quay.io/almalinuxorg/almalinux-bootc:10
             tag_suffix: almalinux10
-            is_latest: false
-          - distro: rockylinux
-            base_image: quay.io/rockylinux/rockylinux-bootc:10
-            tag_suffix: rockylinux10
             is_latest: false
           - distro: fedora
             base_image: quay.io/fedora/fedora-bootc:44
             tag_suffix: fedora
             is_latest: true
+
 
 
 

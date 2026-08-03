@@ -12,8 +12,8 @@ The image can be used to run either a Controller Node (Panel) or a Worker Node (
 - **Base OS options**:
   - `fedora` / `latest`: Built from `quay.io/fedora/fedora-bootc:44` (bleeding-edge).
   - `centos10`: Built from `quay.io/centos-bootc/centos-bootc:stream10`.
-  - `almalinux10`: Built from `quay.io/almalinux/almalinux-bootc:10`.
-  - `rockylinux10`: Built from `quay.io/rockylinux/rockylinux-bootc:10`.
+  - `almalinux10`: Built from `quay.io/almalinuxorg/almalinux-bootc:10`.
+
 
 
 - **Podman Quadlets**: Services (Wings, Panel, Database, Cache) are managed by systemd using Podman Quadlets.
@@ -98,7 +98,7 @@ The GitHub Actions workflow:
   - `ghcr.io/<owner>/calagopus-bootc:fedora` (also tagged as `latest`)
   - `ghcr.io/<owner>/calagopus-bootc:centos10`
   - `ghcr.io/<owner>/calagopus-bootc:almalinux10`
-  - `ghcr.io/<owner>/calagopus-bootc:rockylinux10`
+
 
 
 - Triggers a daily build at 18:00 UTC.
