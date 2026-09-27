@@ -2,6 +2,10 @@
 set -euxo pipefail
 
 BASE_IMAGE="${1:-}"
+CALAGOPUS_VERSION="${2:-}"
+
+# Substitute Calagopus version in Quadlet container definitions
+sed -i "s/@CALAGOPUS_VERSION@/${CALAGOPUS_VERSION}/g" /usr/share/containers/systemd/*.container
 
 # Enable EPEL and CRB repositories for Enterprise Linux images
 if echo "$BASE_IMAGE" | grep -qE "centos|alma|rocky"; then
