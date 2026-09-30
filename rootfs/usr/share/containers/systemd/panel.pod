@@ -4,3 +4,4 @@ Description=Calagopus Panel Pod
 [Pod]
 PodName=panel
 PublishPort=8000:8000
+AddHost=host.docker.internal:host-gateway

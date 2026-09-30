@@ -14,7 +14,6 @@ Volume=/var/lib/calagopus/panel/binaries:/app/binaries:Z
 Volume=/var/lib/calagopus/panel/translations:/app/translations:Z
 Volume=/var/lib/calagopus/panel/extensions:/app/extensions:Z
 Volume=/var/lib/calagopus/panel/extension-migrations:/app/repo/database/extension-migrations:Z
-AddHost=host.docker.internal:host-gateway
 
 [Install]
 WantedBy=multi-user.target
