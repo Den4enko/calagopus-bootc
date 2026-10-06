@@ -5,11 +5,16 @@ After=panel-db.service panel-cache.service
 Conflicts=panel-heavy.service
 
 [Container]
+StartWithPod=false
 Image=ghcr.io/calagopus/panel:@CALAGOPUS_VERSION@
 Pod=panel.pod
 EnvironmentFile=/etc/calagopus/panel.env
 Volume=/var/lib/calagopus/panel/data:/var/lib/calagopus:Z
 Volume=/var/log/calagopus/panel:/var/log/calagopus:Z
 
+[Service]
+ExecStartPre=/usr/bin/bash -c 'if [ -f /etc/calagopus/panel.env ] && grep -q "APP_ENCRYPTION_KEY=CHANGEME" /etc/calagopus/panel.env; then sed -i "s/APP_ENCRYPTION_KEY=CHANGEME/APP_ENCRYPTION_KEY=$(head -c 32 /dev/urandom | sha256sum | head -c 32)/" /etc/calagopus/panel.env; fi'
+
 [Install]
 WantedBy=multi-user.target
+
