@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=quay.io/fedora/fedora-bootc:44
 FROM $BASE_IMAGE
 ARG BASE_IMAGE
-ARG CALAGOPUS_VERSION=1.2.3
+ARG CALAGOPUS_VERSION=1.2.4
 
 # Copy rootfs and build script
 COPY rootfs/ /
